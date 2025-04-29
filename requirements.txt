@@ -1,1 +1,77 @@
-pytest
+## Summary
+
+Netflix’s microservices architecture is a cloud-native, modular ecosystem designed for extreme scalability, resilience, and rapid innovation. It comprises independently deployable services orchestrated on AWS, containerized via Titus, and connected through dynamic service discovery (Eureka) and API routing (Zuul). Communication leverages synchronous HTTP/REST, asynchronous event streaming with Apache Kafka, and high-performance protocols like RSocket. Data is managed using Apache Cassandra for high-throughput storage, EVCache for low-latency caching, and Amazon S3 for object storage. Fault tolerance is enforced via Hystrix circuit breakers and the Simian Army’s chaos experiments, while Spinnaker and Conductor handle continuous delivery and workflow orchestration. Observability is achieved with Atlas telemetry, and edge-optimized delivery is provided by the Open Connect CDN. Netflix also processes real-time streams at petabyte scale using Apache Flink, ensuring personalized recommendations and system insights.
+
+---
+
+## Cloud Infrastructure
+
+- **Amazon Web Services (AWS)**: Netflix runs over 100,000 EC2 instances and terabytes of S3 storage to support compute, storage, analytics, recommendation engines, and video transcoding, deploying resources within minutes to handle global demand citeturn1view0.  
+- **Multi-region Deployment**: Netflix uses AWS regions and availability zones for resilience, with services auto-scaling based on traffic patterns to maintain low latency worldwide citeturn1view0.  
+
+---
+
+## Container Orchestration
+
+- **Titus**: Netflix’s container management platform built on Apache Mesos and deeply integrated with AWS, supporting millions of container launches per week across regional stacks and providing consistent developer workflows from laptop to production citeturn1view3.  
+- **Docker & Mesos**: Microservices are packaged as Docker containers and scheduled by Titus, leveraging Mesos for resource isolation and capacity planning citeturn0search5.  
+
+---
+
+## Service Discovery & API Gateway
+
+- **Eureka**: A client-side service registry where microservices register themselves at startup and periodically send heartbeats; clients retrieve available instances for dynamic discovery and client-side load balancing citeturn0search1.  
+- **Zuul**: Acts as the edge service or API gateway, providing dynamic routing, security filtering, rate limiting, and monitoring for inbound requests before forwarding them to backend services citeturn0search1.  
+
+---
+
+## Communication Patterns
+
+- **HTTP/REST and gRPC**: Services expose RESTful endpoints over HTTP and, where low latency and strong typing are required, use gRPC with Protocol Buffers for efficient inter-service calls citeturn2view0.  
+- **RSocket**: A binary, message-driven protocol developed by Netflix to support reactive streams (request/response, fire-and-forget, streaming channels), reducing transport overhead compared to HTTP for certain use cases citeturn1view6.  
+- **Apache Kafka**: Serves as the backbone for asynchronous, event-driven communication, enabling high-throughput, durable messaging and decoupling producers and consumers across the microservices ecosystem citeturn1view4.  
+
+---
+
+## Data Layer & Caching
+
+- **Apache Cassandra**: Chosen for its linear scalability, multi-datacenter replication, and tunable consistency, Cassandra stores viewing history, metadata, and other high-volume data with no single point of failure citeturn3search2.  
+- **EVCache**: A distributed in-memory cache based on Memcached, EVCache holds transient data (e.g., sessions, homepage pre-computations) in petabyte-scale clusters across availability zones for ultra-low latency access citeturn3search5.  
+- **Amazon S3**: Provides object storage for video assets and large media files, offering high durability and seamless integration with other AWS services citeturn3search3.  
+
+---
+
+## Fault Tolerance & Resilience
+
+- **Hystrix**: Implements the circuit breaker pattern to isolate failures, provide fallback logic, and prevent cascading service outages, with real-time metrics streams for health visualization citeturn0search1.  
+- **Simian Army**: A suite of chaos engineering tools (e.g., Chaos Monkey) that randomly terminate instances or inject faults to validate system resilience and drive continuous improvement in fault tolerance citeturn0search4.  
+- **Spinnaker**: An open-source continuous delivery platform that automates safe rollouts, canary deployments, and rollbacks across multiple cloud environments, enabling high-velocity releases with minimal risk citeturn0search1.  
+
+---
+
+## Observability & Monitoring
+
+- **Atlas**: Netflix’s in-memory, dimensional time-series database for collecting and querying billions of metrics per second, supporting real-time anomaly detection and long-term trend analysis citeturn1view8.  
+- **Distributed Tracing & Logging**: Complement Atlas with end-to-end request tracing and centralized logging to facilitate root-cause analysis and performance tuning across services.  
+
+---
+
+## Workflow Orchestration
+
+- **Netflix Conductor**: A JSON-DSL-based orchestration engine for defining and executing long-running workflows spanning multiple microservices, featuring pausable, versioned blueprints and a web UI for visualization and management citeturn2view0.  
+
+---
+
+## Stream Processing
+
+- **Apache Flink**: Processes over 60 PB of data daily through 15,000+ jobs for real-time analytics, personalization, and data movement, with dynamic scaling up to thousands of parallel operators per cluster citeturn1view7.  
+
+---
+
+## Content Delivery Network
+
+- **Open Connect**: Netflix’s dedicated CDN, deploying caching appliances within ISP networks to localize traffic, reduce backbone bandwidth, and minimize playback latency for end users citeturn0search3.  
+
+---
+
+By combining these components—container orchestration, dynamic discovery, resilient communication patterns, distributed data stores, proactive fault injection, comprehensive observability, and edge-optimized delivery—Netflix maintains a highly available, scalable, and agile platform capable of serving billions of hours of video to users worldwide.
